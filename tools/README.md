@@ -27,7 +27,7 @@ python3 extract_firmware.py /path/to/gfspi.dll -o ./firmware
 
 `goodix_spi.py` sends the transport header and body as two SPI transfers with a
 2 ms gap (`--` hard-coded to match `GOODIXTLS_WRITE_GAP_US=2000`); see
-[`../docs/PROTOCOL.md`](../docs/PROTOCOL.md) for why.
+[`../src/content/docs/protocol.md`](../src/content/docs/protocol.md) for why.
 
 None of these tools contain or write key material. The sensor's own PSK is read
 through command `0xF2` by the driver; it is never handled here.

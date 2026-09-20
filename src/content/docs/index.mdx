@@ -1,0 +1,54 @@
+---
+title: Goodix GXFP SPI protocol
+description: Interoperability notes and tools for the Goodix GXFP5187 and GXFP51A7 SPI fingerprint sensors.
+template: splash
+hero:
+  tagline: Reverse-engineered protocol notes and dependency-free tools for the Goodix GXFP5187 and GXFP51A7 SPI fingerprint sensors.
+  image:
+    file: ../../assets/hero.svg
+  actions:
+    - text: Read the protocol
+      link: /protocol/
+      icon: right-arrow
+      variant: primary
+    - text: Tools on GitHub
+      link: https://github.com/delitdesnoyers06-del/goodix-gxfp-protocol/tree/main/tools
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## What is here
+
+<CardGrid stagger>
+  <Card title="SPI protocol" icon="puzzle">
+    Transport framing, byte-level checksums, command encoding and the command
+    table for both sensor generations.
+  </Card>
+  <Card title="TLS-PSK channel" icon="lock">
+    The sensor is the TLS client. How the host opens the channel, and the
+    `0xD4` settle race that gates image delivery.
+  </Card>
+  <Card title="Imaging" icon="picture">
+    Geometry, the 12-bit 6-to-4 pixel decode, FDT scan arming and the DAC /
+    register flow.
+  </Card>
+  <Card title="Hardware" icon="laptop">
+    Board tables, reset GPIO lines and polarity, the `spidev` prerequisites and
+    recovery from a wedged device.
+  </Card>
+</CardGrid>
+
+## What is intentionally not here
+
+This site documents **behaviour**, not anyone's code. It excludes vendor
+binaries, decompiled driver source, MCU firmware images, configuration blobs,
+key material and captured biometrics. See the
+[provenance notes](https://github.com/delitdesnoyers06-del/goodix-gxfp-protocol/blob/main/PROVENANCE.md)
+for the exact line and why.
+
+## Companion driver
+
+The notes support [libfprint-goodixtls](https://github.com/Sigfrodr/libfprint-goodixtls),
+a TOD driver for libfprint. The GXFP51A7 work adds the Huawei MateBook 13 2019
+(`WRT-WX9`) alongside the GXFP5187 MateBook X Pro (`MACH-WX9`).

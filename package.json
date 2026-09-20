@@ -1,0 +1,27 @@
+{
+  "name": "goodix-gxfp-protocol",
+  "version": "1.0.0",
+  "description": "Protocol notes and tools for the Goodix **GXFP5187** and **GXFP51A7** SPI fingerprint sensors (Huawei MateBook X Pro `MACH-WX9` and MateBook 13 2019 `WRT-WX9`). These are the sensors driven by [libfprint-goodixtls](https://github.com/Sigfrodr/libfprint-goodixtls).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "private": "true",
+  "dependencies": {
+    "@astrojs/starlight": "^0.42.2",
+    "astro": "^7.3.3",
+    "astro-mermaid": "^2.1.0",
+    "mermaid": "^12.0.0"
+  }
+}

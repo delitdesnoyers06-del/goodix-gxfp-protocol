@@ -1,4 +1,7 @@
-# Imaging: geometry, decode, FDT and DAC
+---
+title: "Imaging: geometry, decode, FDT and DAC"
+description: Sensor geometry, the 12-bit pixel decode, FDT scan arming and the DAC/register flow.
+---
 
 ## Geometry
 

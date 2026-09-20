@@ -2,7 +2,7 @@
 """Minimal, dependency-free SPI transport and framing for Goodix GXFP sensors.
 
 Uses only the Linux UAPI (`fcntl`/`ioctl`); no `spidev` Python module is needed.
-The transport rules encoded here are described in ../docs/PROTOCOL.md:
+The transport rules encoded here are described in ../src/content/docs/protocol.md:
 
   * transport header `[type][len LE16][sum(first 3)]`
   * header and body are two separate transfers with CS released between them
@@ -155,7 +155,7 @@ def read_firmware_version(link):
 
 
 def gpio_reset(line, active_high):
-    """Short reset pulse via libgpiod's gpioset, matching docs/HARDWARE.md."""
+    """Short reset pulse via libgpiod's gpioset, matching src/content/docs/hardware.md."""
     assert_cmd = [f"{line}={1 if active_high else 0}"]
     release_cmd = [f"{line}={0 if active_high else 1}"]
     subprocess.run(["gpioset", "gpiochip0"] + assert_cmd, check=False)

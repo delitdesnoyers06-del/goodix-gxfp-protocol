@@ -1,4 +1,7 @@
-# Hardware: boards, GPIO, prerequisites
+---
+title: "Hardware: boards, GPIO, prerequisites"
+description: Boards, reset GPIO lines and polarity, runtime prerequisites, and recovery.
+---
 
 ## Supported boards
 
@@ -56,9 +59,9 @@ implementation polls), but the vendor driver is interrupt-driven.
 
 A GPIO reset does **not** flush the device's TX queue; stale frames can survive
 it. A `spidev` unbind/rebind is what gives a clean state. See
-[`tools/gx-recover.sh`](../tools/gx-recover.sh).
+[`tools/gx-recover.sh`](https://github.com/delitdesnoyers06-del/goodix-gxfp-protocol/blob/main/tools/gx-recover.sh).
 
 ## Firmware identity
 
 The firmware version is read with command `0xA8`. It is a string such as
-`GF3288_ST411SEC_APP_14003`. See [`FIRMWARE.md`](FIRMWARE.md).
+`GF3288_ST411SEC_APP_14003`. See the [Firmware](./firmware.md) page.

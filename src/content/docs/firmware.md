@@ -1,4 +1,7 @@
-# Firmware
+---
+title: "Firmware"
+description: Firmware revisions that change protocol behaviour, and how to extract images from your own driver package.
+---
 
 ## The sensor already runs its firmware
 
@@ -11,7 +14,7 @@ sensor that is silent is not "missing firmware".
 The vendor driver package bundles two application images in its `.rdata`, as
 records of the form `[u8 name_len][name ASCII][raw image]`. They can be
 extracted **from your own licensed copy** with
-[`tools/extract_firmware.py`](../tools/extract_firmware.py). This repository
+[`tools/extract_firmware.py`](https://github.com/delitdesnoyers06-del/goodix-gxfp-protocol/blob/main/tools/extract_firmware.py). This repository
 ships the extractor and the hashes, never the blobs.
 
 Known images (from the driver package, v1.1.141.40):

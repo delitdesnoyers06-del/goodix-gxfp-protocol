@@ -1,4 +1,7 @@
-# SPI protocol
+---
+title: "SPI protocol"
+description: Transport framing, checksums, command encoding and the command table.
+---
 
 Observed on GXFP51A7 (`GF3288_ST411SEC_APP_14003`) and consistent with the
 GXFP5187 (`GF3288_ST411SEC_APP_11033`) and the published sibling analysis.

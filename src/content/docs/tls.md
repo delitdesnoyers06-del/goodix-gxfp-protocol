@@ -1,4 +1,7 @@
-# TLS-PSK channel and command gate
+---
+title: "TLS-PSK channel and command gate"
+description: How the host opens the TLS-PSK channel, the post-handshake 0xD4, and the settle race that gates image delivery.
+---
 
 The sensor is the **TLS client**; the host is the **TLS server**. The channel is
 `TLS_PSK_WITH_AES_128_CBC_SHA256` (cipher suite `0x00A8`) with PSK identity
@@ -45,6 +48,25 @@ Each TLS record travels in its own `0xB0` transport frame. The
 (GXFP51A7): removing it leaves the command gate closed. The ChicagoHS sibling
 uses GCM and does without it.
 
+```mermaid
+sequenceDiagram
+    autonumber
+    participant S as Sensor (TLS client)
+    participant H as Host (TLS server)
+    S->>H: ClientHello
+    H->>S: ServerHello
+    H->>S: ServerKeyExchange (PSK identity hint)
+    H->>S: ServerHelloDone
+    S->>H: ClientKeyExchange
+    S->>H: ChangeCipherSpec
+    S->>H: Finished
+    H->>S: ChangeCipherSpec
+    H->>S: Finished
+    Note over H,S: keys agree, handshake complete
+    H->>S: plaintext 0xD4 (TLS_SUCCESSFULLY_ESTABLISHED)
+    S-->>H: b0 03 00 d4 01 (ACK)
+```
+
 ## Opening the command gate: the plaintext `0xD4`
 
 After the handshake the host must send a **plaintext** command `0xD4`
@@ -74,6 +96,16 @@ knob is `GOODIXTLS_D4_DELAY_MS`.
 This is why early "TLS reconnect on `0x20`" observations looked like a protocol
 omission: `cmd0 == 0xD` is decoded as "TLS reconnect" by the vendor driver, but
 the real cause was the `0xD4` timing.
+
+```mermaid
+flowchart TD
+    A["Host sends server Finished"] --> B{"gap before 0xD4"}
+    B -- "~0 ms" --> C["0xD4 ACKed, MCU state stays 4"]
+    C --> D["0x20 -> d0 03 00 04 00 (reconnect request)"]
+    B -- ">= 5 ms" --> E["MCU state advances to 6"]
+    E --> F["0x20 -> 0xB0 image record"]
+    F --> G["decrypts to 22189 bytes"]
+```
 
 ## MCU state (`0xAE`)
 

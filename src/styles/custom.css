@@ -1,0 +1,24 @@
+/* Accent tuned to a "signal / terminal" green. Everything else stays stock
+   Starlight so text and code keep their readable defaults. */
+:root {
+  --sl-color-accent-low: #06281f;
+  --sl-color-accent: #10a37f;
+  --sl-color-accent-high: #a7f3d0;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #bff0e2;
+  --sl-color-accent: #0b7a5b;
+  --sl-color-accent-high: #04302a;
+}
+
+/* Keep wide protocol tables readable on small screens. */
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.sl-markdown-content table code {
+  white-space: nowrap;
+}

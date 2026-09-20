@@ -20,7 +20,7 @@ against a vendor driver the author is licensed to run. It combines:
 |---|---|
 | Decompiled vendor driver source (`gfspi.dll` output) | It is copyrighted vendor code. Redistributing it is the highest-risk item and adds nothing a protocol description needs. |
 | The vendor driver binary (`gfspi.dll`, `Engine_*.dll`, enclave blobs) | Proprietary binaries; obtain from your own licensed package. |
-| MCU firmware images (`GF_*SEC_APP_*.bin`) | Copyrighted vendor firmware. `docs/FIRMWARE.md` and `tools/extract_firmware.py` let you extract and hash them from your own copy. |
+| MCU firmware images (`GF_*SEC_APP_*.bin`) | Copyrighted vendor firmware. `src/content/docs/firmware.md` and `tools/extract_firmware.py` let you extract and hash them from your own copy. |
 | Sensor configuration blobs | Vendor-supplied data tables. |
 | PSK / PMK / key material | Secret key material. Only the *RAM address* where a device keeps its own key is documented, never a key. |
 | Frame captures, decrypted images, biometric templates | Captured data and biometric data. Not redistributed. |

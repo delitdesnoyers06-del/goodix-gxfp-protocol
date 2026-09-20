@@ -15,7 +15,7 @@ for d in spi-GXFP51A7:00 spi-GXFP5187:00; do
 done
 DEV=${DEV:-spi-GXFP5187:00}
 
-# Reset line and polarity are board-specific (see ../docs/HARDWARE.md):
+# Reset line and polarity are board-specific (see ../src/content/docs/hardware.md):
 #   GXFP5187  gpiochip0 line 58  active-low   (assert 0, release 1)
 #   GXFP51A7  gpiochip0 line 264 active-high  (assert 1, release 0)
 if [ "$DEV" = "spi-GXFP51A7:00" ]; then

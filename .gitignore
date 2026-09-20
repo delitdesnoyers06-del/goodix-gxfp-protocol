@@ -34,6 +34,10 @@ live-*/
 
 # Build artifacts
 build/
+dist/
+.astro/
+node_modules/
+
 __pycache__/
 *.o
 *.so
