@@ -24,6 +24,22 @@ else
   RST_LINE=58;  RST_ASSERT=0; RST_RELEASE=1
 fi
 
+# libgpiod 2.x moved the chip behind -c and holds lines until the process exits,
+# so a pulse needs "-t 0"; libgpiod 1.x takes the chip positionally and releases
+# on exit. Both forms are tried so the script works with either. This runs as
+# root, so no sudo. A failure is reported, never hidden: a silently skipped pulse
+# looks exactly like a sensor that will not come back.
+gpio_pulse() {  # line assert release
+  local line=$1 assert=$2 release=$3
+  if gpioset --version 2>/dev/null | grep -qE 'v?2\.'; then
+    gpioset -c "$CHIP" -t 0 "$line=$assert" &&
+    gpioset -c "$CHIP" -t 0 "$line=$release"
+  else
+    gpioset "$CHIP" "$line=$assert" &&
+    gpioset "$CHIP" "$line=$release"
+  fi
+}
+
 echo "stopping fprintd"
 systemctl stop fprintd 2>/dev/null || true
 sleep 1
@@ -33,9 +49,10 @@ echo "$DEV" > /sys/bus/spi/drivers/spidev/unbind 2>/dev/null || true
 sleep 1
 
 echo "reset pulse on $CHIP line $RST_LINE (short, not held)"
-gpioset "$CHIP" "$RST_LINE=$RST_ASSERT" || true
-sleep 0.1
-gpioset "$CHIP" "$RST_LINE=$RST_RELEASE" || true
+if ! gpio_pulse "$RST_LINE" "$RST_ASSERT" "$RST_RELEASE"; then
+  echo "WARNING: gpioset failed (libgpiod installed? permission denied?)" >&2
+  echo "         the spidev unbind/rebind below is what clears the lock-up" >&2
+fi
 sleep 1
 
 echo "rebinding spidev"
