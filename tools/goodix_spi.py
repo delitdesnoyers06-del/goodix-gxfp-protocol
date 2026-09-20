@@ -17,6 +17,7 @@ import argparse
 import ctypes
 import fcntl
 import os
+import re
 import struct
 import subprocess
 import sys
@@ -154,13 +155,38 @@ def read_firmware_version(link):
     return body[3:-1].split(b"\x00", 1)[0].decode("latin1", "replace")
 
 
-def gpio_reset(line, active_high):
+def _gpioset_cmd(chip, line, value):
+    """Build a `gpioset` command for either libgpiod series.
+
+    libgpiod 2.x moved the chip behind -c and holds the requested line until the
+    process exits, so a pulse needs "-t 0"; libgpiod 1.x takes the chip as a
+    positional argument and releases on exit. Getting this wrong is silent —
+    nothing is driven and the reset does nothing — so the caller reports a
+    non-zero exit instead of ignoring it.
+    """
+    try:
+        out = subprocess.run(["gpioset", "--version"], capture_output=True,
+                             text=True, check=False).stdout
+    except FileNotFoundError:
+        return None
+    m = re.search(r"v(\d+)", out)
+    if m and int(m.group(1)) >= 2:
+        return ["gpioset", "-c", chip, "-t", "0", f"{line}={value}"]
+    return ["gpioset", chip, f"{line}={value}"]
+
+
+def gpio_reset(line, active_high, chip="gpiochip0"):
     """Short reset pulse via libgpiod's gpioset, matching src/content/docs/hardware.md."""
-    assert_cmd = [f"{line}={1 if active_high else 0}"]
-    release_cmd = [f"{line}={0 if active_high else 1}"]
-    subprocess.run(["gpioset", "gpiochip0"] + assert_cmd, check=False)
-    time.sleep(0.01)
-    subprocess.run(["gpioset", "gpiochip0"] + release_cmd, check=False)
+    for value in (1 if active_high else 0, 0 if active_high else 1):
+        cmd = _gpioset_cmd(chip, line, value)
+        if cmd is None:
+            print("gpioset not found; skipping the reset pulse", file=sys.stderr)
+            return
+        if subprocess.run(cmd, check=False).returncode != 0:
+            print("gpioset failed (%s); reset pulse skipped" % " ".join(cmd),
+                  file=sys.stderr)
+            return
+        time.sleep(0.01)
     time.sleep(0.12)
 
 

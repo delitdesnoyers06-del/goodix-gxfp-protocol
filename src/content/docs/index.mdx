@@ -8,7 +8,11 @@ hero:
     file: ../../assets/hero.svg
   actions:
     - text: Read the protocol
-      link: /protocol/
+      # No leading slash. The hero action is emitted verbatim as an href, and
+      # Astro's `base` is not prepended to it, so "/protocol/" would point at
+      # the github.io root and 404. A relative path resolves against the page
+      # URL and therefore keeps the base.
+      link: protocol/
       icon: right-arrow
       variant: primary
     - text: Tools on GitHub

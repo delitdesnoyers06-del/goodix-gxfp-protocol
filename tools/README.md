@@ -3,6 +3,12 @@
 Small, self-contained helpers. They talk to the hardware; run the SPI/GPIO ones
 as root (or grant access via ACLs).
 
+`gx-recover.sh` and the `--reset` path of `goodix_spi.py` work with **both
+libgpiod 1.x and 2.x**: the `gpioset` argument syntax changed between the two
+(the chip moved behind `-c`, and 2.x holds the line until exit unless given
+`-t 0`). Getting it wrong is silent — the line is never driven and the reset
+does nothing — so both tools now report a non-zero exit instead of ignoring it.
+
 | Tool | Purpose |
 |---|---|
 | `goodix_spi.py` | Dependency-free raw SPI transport + framing, `probe` (firmware version, MCU state) and `reset`. |
