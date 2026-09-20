@@ -1,0 +1,39 @@
+# Never commit vendor code, firmware, key material or captured data.
+*.dll
+*.sys
+*.efi
+*.[Dd][Ll][Ll]
+
+# Firmware images and vendor config blobs
+GF_*.bin
+*_SEC_APP_*.bin
+*_SEC_IAP_*.bin
+firmware/
+cfg_type*.bin
+
+# Decompiled vendor output
+*-decompiled.c
+*-decompiled.txt
+*ghidra*
+*.gzf
+
+# Captured frames / transcripts / biometrics
+*.pcap
+*.pcapng
+*.log
+*.pgm
+*.pbm
+captures/
+live-*/
+
+# Keys and secrets
+*.key
+*.pem
+*_psk*
+*_pmk*
+
+# Build artifacts
+build/
+__pycache__/
+*.o
+*.so
