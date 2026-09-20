@@ -38,7 +38,8 @@ export default defineConfig({
           items: [
             { label: 'Tools', link: `${REPO}/tree/main/tools` },
             { label: 'Provenance', link: `${REPO}/blob/main/PROVENANCE.md` },
-            { label: 'libfprint-goodixtls driver', link: 'https://github.com/Sigfrodr/libfprint-goodixtls' },
+            { label: 'Driver — GXFP51A7 port', link: 'https://github.com/delitdesnoyers06-del/libfprint-goodixtls' },
+            { label: 'Upstream driver (GXFP5187)', link: 'https://github.com/Sigfrodr/libfprint-goodixtls' },
           ],
         },
       ],
